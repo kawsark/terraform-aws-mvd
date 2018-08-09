@@ -8,7 +8,7 @@ variable "owner" {
 
 module "aws_minimum_viable_deployment" {
   source = "../../"
-  #source = "github.com/kawsark/tradebot-aws-mvd"
+  #source = "github.com/kawsark/terraform-aws-mvd"
 
   owner = "${var.owner}"
   id_rsa_pub_path = "${var.id_rsa_pub_path}"
