@@ -189,6 +189,8 @@ resource "aws_route_table_association" "mvd-private-1-b" {
 #User data
 data "template_file" "user_data" {
   template = "${file(var.user_data_file_path)}"
+
+  depends_on = ["aws_key_pair.mvdkeypair"]
 }
 
 #Launch configuration
