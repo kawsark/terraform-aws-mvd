@@ -16,3 +16,11 @@ export TF_VAR_id_rsa_pub="$(cat <path_to_id_rsa.pub>)"
 terraform plan
 terraform apply
 ```
+
+### Updating a new release for Private Module Repository:
+```
+export TAG=v0.1
+git tag ${TAG}
+git tag -l
+git push origin --tags
+```
