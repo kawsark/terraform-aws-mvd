@@ -1,7 +1,7 @@
 # Terraform configuration for Minimum Viable Deployment (MVD)
 
 provider "aws" {
- # AWS provider configured via environment variables: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+  # AWS provider configured via environment variables: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
   region = "${var.aws_region}"
 }
 
@@ -87,7 +87,7 @@ resource "aws_internet_gateway" "mvd-gw" {
 resource "aws_route_table" "mvd-public" {
   vpc_id = "${aws_vpc.mvd_vpc.id}"
 
-tags {
+  tags {
     Name = "mvd-public-1"
     App  = "${var.App}"
     Env  = "${var.environment}"
@@ -96,9 +96,9 @@ tags {
 
 #Public route
 resource "aws_route" "mvd-public-route" {
-  route_table_id = "${aws_route_table.mvd-public.id}"
+  route_table_id         = "${aws_route_table.mvd-public.id}"
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id = "${aws_internet_gateway.mvd-gw.id}"
+  gateway_id             = "${aws_internet_gateway.mvd-gw.id}"
 }
 
 # route associations public
@@ -124,25 +124,24 @@ resource "aws_security_group" "mvd-sg" {
 }
 
 resource "aws_security_group_rule" "egress_allow_all" {
-  type            = "egress"
-  from_port       = 0
-  to_port         = 0
-  protocol        = "-1"
-  cidr_blocks     = ["0.0.0.0/0"]
+  type        = "egress"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = "${aws_security_group.mvd-sg.id}"
 }
 
 resource "aws_security_group_rule" "ingress_allow_ssh" {
-  type            = "ingress"
-  from_port       = 22
-  to_port         = 22
-  protocol        = "tcp"
-  cidr_blocks     = ["0.0.0.0/0"]
+  type        = "ingress"
+  from_port   = 22
+  to_port     = 22
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = "${aws_security_group.mvd-sg.id}"
 }
-
 
 # nat gw
 resource "aws_eip" "nat_eip" {
@@ -168,11 +167,10 @@ resource "aws_route_table" "mvd-private" {
 
 #Private route
 resource "aws_route" "mvd-private-route" {
-  route_table_id = "${aws_route_table.mvd-private.id}"
+  route_table_id         = "${aws_route_table.mvd-private.id}"
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id = "${aws_nat_gateway.nat-gw.id}"
+  nat_gateway_id         = "${aws_nat_gateway.nat-gw.id}"
 }
-
 
 # route associations private
 resource "aws_route_table_association" "mvd-private-1-a" {
@@ -184,7 +182,6 @@ resource "aws_route_table_association" "mvd-private-1-b" {
   subnet_id      = "${aws_subnet.mvd-private-2.id}"
   route_table_id = "${aws_route_table.mvd-private.id}"
 }
-
 
 #User data
 data "template_file" "user_data" {
@@ -202,25 +199,24 @@ resource "aws_launch_configuration" "mvdserver_lc" {
   security_groups = ["${aws_security_group.mvd-sg.id}"]
 
   lifecycle {
-      create_before_destroy = true
+    create_before_destroy = true
   }
 
   #user_data = "${file(var.user_data_file_path)}"
   user_data = "${data.template_file.user_data.rendered}"
-
 }
 
 #Auto Scaling group
 resource "aws_autoscaling_group" "mvdserver_asg" {
   launch_configuration = "${aws_launch_configuration.mvdserver_lc.name}"
-  min_size	       = "${var.asg_size_map["min"]}"
-  max_size	       = "${var.asg_size_map["max"]}"
+  min_size             = "${var.asg_size_map["min"]}"
+  max_size             = "${var.asg_size_map["max"]}"
   desired_capacity     = "${var.asg_size_map["desired"]}"
   health_check_type    = "EC2"
 
-  vpc_zone_identifier       = ["${aws_subnet.mvd-public-1.id}", "${aws_subnet.mvd-public-2.id}"]
+  vpc_zone_identifier = ["${aws_subnet.mvd-public-1.id}", "${aws_subnet.mvd-public-2.id}"]
 
- tags = [
+  tags = [
     {
       key                 = "App"
       value               = "${var.App}"
@@ -245,13 +241,12 @@ resource "aws_autoscaling_group" "mvdserver_asg" {
       key                 = "TTL"
       value               = "${var.ttl}"
       propagate_at_launch = true
-    }
+    },
   ]
 
   lifecycle {
-      create_before_destroy = true
+    create_before_destroy = true
   }
-
 }
 
 resource "aws_key_pair" "mvdkeypair" {

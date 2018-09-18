@@ -1,5 +1,5 @@
 variable "id_rsa_pub" {
-	description = "The public key file contents for SSH login."
+  description = "The public key file contents for SSH login."
 }
 
 variable "owner" {
@@ -7,10 +7,9 @@ variable "owner" {
 }
 
 module "aws_minimum_viable_deployment" {
-  source = "app.terraform.io/kawsark/terraform-aws-mvd"
+  source = "app.terraform.io/kawsark/mvd/aws"
 
-  owner = "${var.owner}"
-  id_rsa_pub = "${var.id_rsa_pub}"
+  owner               = "${var.owner}"
+  id_rsa_pub          = "${var.id_rsa_pub}"
   user_data_file_path = "user-data.sh"
-
 }

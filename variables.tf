@@ -1,5 +1,5 @@
 variable "id_rsa_pub" {
-	description = "The public key for SSH login."
+  description = "The public key for SSH login."
 }
 
 variable "owner" {
@@ -7,37 +7,39 @@ variable "owner" {
 }
 
 variable "user_data_file_path" {
-	description = "Path for user_data script."
-	default = "user-data.sh"
+  description = "Path for user_data script."
+  default     = "user-data.sh"
 }
 
 variable "aws_region" {
-	description = "The AWS region this infrastructure should be provisioned in"
-	default = "us-east-2"
+  description = "The AWS region this infrastructure should be provisioned in"
+  default     = "us-east-2"
 }
 
 variable "environment" {
-	 default = "Production"
+  default = "Production"
 }
 
-variable "asg_size_map"{
+variable "asg_size_map" {
   type = "map"
+
   default = {
-    min = 1,
-    desired = 1,
-    max = 1
+    min     = 1
+    desired = 1
+    max     = 1
   }
 }
 
-variable "instance_size"{
+variable "instance_size" {
   default = "t2.micro"
 }
 
 variable "ami_id" {
   description = "ID of the AMI to provision. Default is Ubuntu 14.04 Base Image"
-  type = "map"
+  type        = "map"
+
   default = {
-    us-east-1 = "ami-759bc50a",
+    us-east-1 = "ami-759bc50a"
     us-east-2 = "ami-5e8bb23b"
   }
 }
@@ -46,15 +48,14 @@ variable "App" {
   default = "mvd-app"
 }
 
-
 variable "name" {
   description = "name to pass to Name tag"
-  default = "mvd-server"
+  default     = "mvd-server"
 }
 
 variable "ttl" {
   description = "A desired time to live (not enforced via terraform)"
-  default = "24"
+  default     = "24"
 }
 
 variable "vpc_cidr_block" {
