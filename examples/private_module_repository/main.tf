@@ -7,7 +7,7 @@ variable "owner" {
 }
 
 module "aws_minimum_viable_deployment" {
-  source = "app.terraform.io/kawsark/mvd/aws"
+  source = "app.terraform.io/kawsar-org/mvd/aws"
 
   owner               = "${var.owner}"
   id_rsa_pub          = "${var.id_rsa_pub}"
