@@ -11,5 +11,5 @@ module "aws_minimum_viable_deployment" {
 
   owner               = "${var.owner}"
   id_rsa_pub          = "${var.id_rsa_pub}"
-  user_data_file_path = "user-data.sh"
+  user_data_file_path = "${path.module}/user-data.sh"
 }
