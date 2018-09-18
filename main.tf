@@ -258,5 +258,5 @@ resource "aws_autoscaling_group" "mvdserver_asg" {
 
 resource "aws_key_pair" "mvdkeypair" {
   key_name   = "mvdkeypair"
-  public_key = "${file(var.id_rsa_pub_path)}"
+  public_key = "${var.id_rsa_pub}"
 }

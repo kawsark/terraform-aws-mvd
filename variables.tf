@@ -1,5 +1,5 @@
-variable "id_rsa_pub_path" {
-	description = "The public key file path for SSH login."
+variable "id_rsa_pub" {
+	description = "The public key for SSH login."
 }
 
 variable "owner" {
